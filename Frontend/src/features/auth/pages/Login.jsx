@@ -1,19 +1,21 @@
 import FormGroup from "../components/FormGroup";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router";
-import { Link } from "react-router";
 import { useState } from "react";
 import "../style/login.scss";
 
 const Login = () => {
-  const { loading, handleLogin } = useAuth();
-  const { navigate } = useNavigate();
+  const { handleLogin } = useAuth();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   async function handleSubmit(event) {
     event.preventDefault();
-    await handleLogin({ email: formData.email, password: formData.password });
+
+    const { email, password } = formData;
+    await handleLogin({ email, password });
+
     navigate("/");
   }
 
@@ -30,13 +32,15 @@ const Login = () => {
           <FormGroup
             value={formData.email}
             onChange={handleInputChange}
-            label="Email"
+            label="email"
+            name="Email"
             placeholder="Enter your email"
           />
           <FormGroup
             value={formData.password}
             onChange={handleInputChange}
-            label="Password"
+            label="password"
+            name="Password"
             placeholder="Enter your password"
           />
           <button className="button" type="submit">
